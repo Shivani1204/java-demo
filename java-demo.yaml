@@ -1,31 +1,34 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: java-demo
+  name: java-demo-deployment
+  labels:
+    app: java-demo
 spec:
+  replicas: 1
   selector:
     matchLabels:
       app: java-demo
-  replicas: 2
   template:
     metadata:
       labels:
         app: java-demo
     spec:
       containers:
-      - image: fstab/java-demo
-        name: java-demo
-        ports:
-        - containerPort: 8080
+        - name: java-demo
+          image: docker.io/shivani275/java-demo:IMAGE_TAG
+          ports:
+            - containerPort: 8080
 ---
-kind: Service
 apiVersion: v1
+kind: Service
 metadata:
-  name: java-demo
+  name: java-demo-service
 spec:
   selector:
     app: java-demo
   ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 8080
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+
